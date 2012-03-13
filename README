@@ -1,0 +1,1 @@
+N-gram-based JavaScript language identifier tailored to Twitter messages. Removes typical Twitter lingo (RT, @mentions, #hastags, OH, HT) to improve results.
