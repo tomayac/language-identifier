@@ -208,6 +208,7 @@ french.nGramProbabilities.default = french.getNGramProbability(false);
 // console.log('French ' + JSON.stringify(french).replace(/,/, '\n'));
 
 var NaiveBayes = function(categories, features) {
+  this.DEBUG = true;  
   this.categories = categories;
   this.features = features;
   this.probabilities = {};
@@ -224,12 +225,12 @@ var NaiveBayes = function(categories, features) {
   });  
 }; 
 
-NaiveBayes.prototype.aAPrioriProbabilities = function(category) {
+NaiveBayes.prototype.aPrioriProbabilities = function(category) {
   this.probabilities[category].categoryProbability =
       this.categories[category].sampleSize / this.numberOfSamples;
 };
 
-NaiveBayes.prototype.aAPosterioriProbabilities =
+NaiveBayes.prototype.aPosterioriProbabilities =
     function(category, feature, probability) {
   this.probabilities[category][feature].push(probability);
 };
@@ -238,7 +239,7 @@ NaiveBayes.prototype.classify = function(newItem) {
   // a priori
   var that = this;
   Object.keys(this.categories).forEach(function(category) {
-    that.aAPrioriProbabilities(category);
+    that.aPrioriProbabilities(category);
   });    
   // a posteriori
   Object.keys(that.categories).forEach(function(category) {      
@@ -247,7 +248,7 @@ NaiveBayes.prototype.classify = function(newItem) {
         var probability = that.features[feature].data[category][item] ?
             that.features[feature].data[category][item] :
             that.features[feature].data[category].default;
-        that.aAPosterioriProbabilities(category, feature, probability);
+        that.aPosterioriProbabilities(category, feature, probability);
       });
     });
   });
@@ -270,7 +271,7 @@ NaiveBayes.prototype.classify = function(newItem) {
     categoryResults[featureResults.reduce(multiply)] = category;
   });
 
-console.log(categoryResults);
+  if (this.DEBUG) console.log(categoryResults);
   var keys =
       Object.keys(categoryResults).map(function(n) { return parseFloat(n);});
   return categoryResults[Math.max.apply(null, keys)];
@@ -297,8 +298,6 @@ var features = {
   }
 };
 
-// console.log(naiveBayes);    
-var ngram = new LanguageModel();
 var newTweets = [
   'Looking forward to read @EricTopol\'s book "Destroying Medicine: Using patient\'s data" ow.ly/1IlzY7',
   'Si vous souhaitez contribuer à la traduction en français du rapport du Library Linked Data Group (LLD XG) contactez-moi #help #traductions',
@@ -307,11 +306,11 @@ var newTweets = [
   '@lechatpito Tiens, on m\'avait sollicité aussi ;-) bonne réunion et bon courage pour les convaincre'
 ];
 newTweets.forEach(function(newTweet) {
-  var naiveBayes = new NaiveBayes(categories, features);  
-  console.log(newTweet + '\n' + ngram.getNGrams(newTweet) + '\n' + naiveBayes.classify({
-    'nGrams': ngram.getNGrams(newTweet)
-  }));
+  var naiveBayes = new NaiveBayes(categories, features);
+  var languageModel = new LanguageModel();  
+  var result = naiveBayes.classify({
+    'nGrams': languageModel.getNGrams(newTweet)
+  });
+  console.log(
+      newTweet + '\n' + languageModel.getNGrams(newTweet) + '\n' + result);
 });
-//console.log(naiveBayes);    
-// console.log(naiveBayes);
-
