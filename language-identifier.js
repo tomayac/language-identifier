@@ -18,7 +18,7 @@ Micropost.prototype.getNGrams = function(nGramSize) {
   var HASHTAG_REGEX = /(^|\s)\#(\S+)/g;
   var USER_REGEX = /(^|\W)\@([a-zA-Z0-9_]+)/g;  
   // based on http://en.wikipedia.org/wiki/Punctuation
-  var PUNCTUATION_REGEX = /[\.,\-‒–—―\/\?¿|!¡\^&§\*;:{}=_"'`´~„“”‘’…\[\]\(\)⟨⟩«»\\·•^†‡°〃#№÷ºª%‰‱¶′″‴¦|©®℗℠™¤₳฿₵¢₡₢₠$₫৳ ₯€ƒ₣₲₴₭ℳ₥₦₧₱₰£₹₨$₪₸₮₩¥៛⁂⊤⊥☞∴∵‽؟◊※⁀♠♣♥♦‾←↑→↓♫�]/g;
+  var PUNCTUATION_REGEX = /[\.,\-‒–—―\/\?¿|!¡\^&§\*;:{}=_"'`´~„“”‘’…\[\]\(\)⟨⟩«»\\♻·•^†‡°〃#№÷ºª%‰‱¶′″‴¦|©®℗℠™¤₳฿₵¢₡₢₠$₫৳ ₯€ƒ₣₲₴₭ℳ₥₦₧₱₰£₹₨$₪₸₮₩¥៛⁂⊤⊥☞∴∵‽؟◊※⁀♠♣♥♦‾←↑→↓♫�]/g;
   var nGramRegEx = new RegExp('.{' + nGramSize + '}', 'g');
   if (this.DEBUG === true) console.log('Before normalization: ' + this.text);
   // remove typical Twitter lingo, loosly based on
