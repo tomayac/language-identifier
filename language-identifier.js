@@ -73,6 +73,16 @@ var features = {
       english: english.nGramProbabilities,
       german: german.nGramProbabilities,
       french: french.nGramProbabilities
+    },
+    frequencies: {
+      english: english.numberOfMicroposts,
+      german: german.numberOfMicroposts,
+      french: french.numberOfMicroposts      
+    },
+    minimumProbabilities: {
+      english: english.minimumProbability,
+      german: german.minimumProbability,
+      french: french.minimumProbability            
     }
   }
 };
@@ -81,6 +91,6 @@ newTweets.forEach(function(newTweet) {
   var nGrams = new Micropost(newTweet).getNGrams();
   var result = naiveBayes.classify({
     'nGrams': nGrams
-  });
+  }, true);
   console.log(newTweet + '\n' + result);
 });
