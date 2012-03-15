@@ -128,7 +128,7 @@ var germanTweets = [
   '@spektrallinie @tagesschau Das läuft doch im zweiten, oder? Bin mir aber grad auch nicht sicher… Ich guck das seit Jahren nicht mehr..',
   '@tagesschau twittert über Lanz und Wetten Das… wo leben wir eigentlich… war mal ne Nachrichtensendung',
   'schützen nein danke “@tagesschau: Schützenverband verbannt schwule Königspaare http://bit.ly/yxSvGi”',
-  '@tagesschau Willkommen im 21. Jahrhundert…. traurig.'  
+  '@tagesschau Willkommen im 21. Jahrhundert…. traurig.'
 ];
 
 module.exports = germanTweets;

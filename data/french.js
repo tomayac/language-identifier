@@ -62,7 +62,7 @@ var frenchTweets = [
   '@20minutes Un activiste français lutte contre la police coréenne pour protéger un rocher http://francereport.net/957',
   'Sabu, le hacker le plus recherché du monde, était un père de famille au chômage http://20min.fr/a/892979 via @20minutes',
   'À signaler que #Mélenchon vient d\'attendre pour la 1ère fois les 10% selon un sondage CSA pour @BFMTV, @20minutes et @RMC',
-  'Présidentielle: Nicolas Sarkozy, toujours vu comme le candidat des plus riches http://20min.fr/a/892935 via @20minutes',  
+  'Présidentielle: Nicolas Sarkozy, toujours vu comme le candidat des plus riches http://20min.fr/a/892935 via @20minutes'
 ];
 
 module.exports = frenchTweets; 

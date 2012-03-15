@@ -44,7 +44,7 @@ var englishTweets = [
   'Daily Kos: Arizona out-crazies other contraception bills. Use birth control, get fired. http://www.dailykos.com/story/2012/03/13/1074068/-@abc @nbc @cbs @cnn',
   'I suppose this a good thing for those of us with small apartments: http://money.cnn.com/2012/03/13/technology/encyclopedia-britannica-books/index.htm The digital #books revolution continues… @cnn',
   '@GreeterDan feel free to nab my pic of the @CNN grill from my @radar post on #SXSW last year Daniel Terdiman',
-  '@IndyEnigma @CNN @Soledad_OBrien WAAAAAHHHH! Stop tweeting her, Indy!'  
+  '@IndyEnigma @CNN @Soledad_OBrien WAAAAAHHHH! Stop tweeting her, Indy!'
 ];
 
 module.exports = englishTweets; 

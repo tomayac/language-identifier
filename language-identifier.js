@@ -69,12 +69,17 @@ var categories = {
 };
 var features = {
   nGrams: {
-    data: {
+    probabilities: {
       english: english.nGramProbabilities,
       german: german.nGramProbabilities,
       french: french.nGramProbabilities
     },
     frequencies: {
+      english: english.nGramFrequencies,
+      german: german.nGramFrequencies,
+      french: french.nGramFrequencies      
+    },
+    totals: {
       english: english.numberOfMicroposts,
       german: german.numberOfMicroposts,
       french: french.numberOfMicroposts      
