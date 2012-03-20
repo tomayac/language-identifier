@@ -1,8 +1,11 @@
 (function() {
-  var learnFromScratch = true;
+  var learnFromScratch = false;
   var englishTweets = learnFromScratch? [] : require('./data/english.js');
   var germanTweets = learnFromScratch? [] : require('./data/german.js');
   var frenchTweets = learnFromScratch? [] : require('./data/french.js');
+  var dutchTweets = learnFromScratch? [] : require('./data/dutch.js');
+  var spanishTweets = learnFromScratch? [] : require('./data/spanish.js');
+  var newTweets = require('./data/tweets.js');
 
   var LanguageModel = require('./lib/language-model.js');
   var NaiveBayes = require('./lib/naive-bayes');
@@ -30,6 +33,28 @@
   });
   german.nGramProbabilities.default = german.getNGramProbability(false);
 
+  // Dutch
+  var dutch = new LanguageModel();
+  dutchTweets.forEach(function(tweet) {
+    var ngrams = new Micropost(tweet).getNGrams();
+    dutch.calculateFrequencies(ngrams);
+  });
+  Object.keys(dutch.nGramFrequencies).forEach(function(nGram) {
+    dutch.nGramProbabilities[nGram] = dutch.getNGramProbability(nGram);
+  });
+  dutch.nGramProbabilities.default = dutch.getNGramProbability(false);
+
+  // Spanish
+  var spanish = new LanguageModel();
+  spanishTweets.forEach(function(tweet) {
+    var ngrams = new Micropost(tweet).getNGrams();
+    spanish.calculateFrequencies(ngrams);
+  });
+  Object.keys(spanish.nGramFrequencies).forEach(function(nGram) {
+    spanish.nGramProbabilities[nGram] = spanish.getNGramProbability(nGram);
+  });
+  spanish.nGramProbabilities.default = spanish.getNGramProbability(false);
+
   // French
   var french = new LanguageModel();
   frenchTweets.forEach(function(tweet) {
@@ -42,21 +67,6 @@
   french.nGramProbabilities.default = french.getNGramProbability(false);
 
   // Main ////////////////////////////////////////////////////////////////////////
-  var newTweets = [
-    'Looking forward to read @EricTopol\'s book "Destroying Medicine: Using patient\'s data" ow.ly/1IlzY7',
-    'Si vous souhaitez contribuer à la traduction en français du rapport du Library Linked Data Group (LLD XG) contactez-moi #help #traductions',
-    'Champions League: Bayern muss gegen Basel punktebn bit.ly/zQzlwz',/*
-    'war heute beim Workshop zu Möglichkeiten der forschungsbezogenen Leistungsmessung an Universitäten bit.ly/ybDrmH #scientometrie #hhu',
-    '@lechatpito Tiens, on m\'avait sollicité aussi ;-) bonne réunion et bon courage pour les convaincre',
-    'This is the best thing you\'ll read all day: http://www.quora.com/Air-Force-One/Whats-it-like-to-fly-on-Air-Force-One #fb',
-    'rumor, innuendo, pointless',
-    'been playing with/QAing my new baby today. it’s the sexiest looking app you\'ve ever seen. the team here rocks. can’t wait to launch it :)',
-    'http://SourceForge.net: EulerSharp: eulersharp-users - http://goo.gl/K1FfN',
-    '63 people at the #sxsw talk on “Has the semantic Web gone mainstream” a great talk with @juansequeda a PhD student http://pic.twitter.com/Vsl8nTq9',
-    'Wanted: Wikipedian who loves libraries/archives, wants to make a difference. Come work with us this summer! http://bit.ly/xqJ1ij #oclcr',
-    'Prof. Jan De Maeseneer (UGent) enig Europees lid van \'Global Forum on Innovation in Health Professional E… http://bit.ly/ylvvmA #ugent',
-    'Software code is already protected by copyright law. The results of that code should not be patentable.'*/
-  ];
 
   var categories = {
     english: {
@@ -67,6 +77,12 @@
     },
     french: {
       sampleSize: frenchTweets.length
+    },
+    spanish: {
+      sampleSize: spanishTweets.length
+    },
+    dutch: {
+      sampleSize: dutchTweets.length
     }
   };
   var features = {
@@ -74,31 +90,43 @@
       probabilities: {
         english: english.nGramProbabilities,
         german: german.nGramProbabilities,
-        french: french.nGramProbabilities
+        french: french.nGramProbabilities,
+        dutch: dutch.nGramProbabilities,
+        spanish: spanish.nGramProbabilities
       },
       frequencies: {
         english: english.nGramFrequencies,
         german: german.nGramFrequencies,
-        french: french.nGramFrequencies      
+        french: french.nGramFrequencies,
+        dutch: dutch.nGramFrequencies,
+        spanish: spanish.nGramFrequencies,
       },
       totals: {
         english: english.numberOfMicroposts,
         german: german.numberOfMicroposts,
-        french: french.numberOfMicroposts      
+        french: french.numberOfMicroposts,
+        dutch: dutch.numberOfMicroposts,
+        spanish: spanish.numberOfMicroposts      
       },
       minimumProbabilities: {
         english: english.minimumProbability,
         german: german.minimumProbability,
-        french: french.minimumProbability            
+        french: french.minimumProbability,
+        dutch: dutch.minimumProbability,
+        spanish: spanish.minimumProbability            
       }
     }
   };
   var naiveBayes = new NaiveBayes(categories, features);
   newTweets.forEach(function(newTweet) {
     var nGrams = new Micropost(newTweet).getNGrams();
-    var result = naiveBayes.classify({
-      'nGrams': nGrams
-    }, true);
-    console.log(newTweet + '\n' + result);
+    if (nGrams) {
+      var result = naiveBayes.classify({
+        nGrams: nGrams
+      }, {
+        learn: true
+      });
+      console.log(newTweet + '\n' + result + '\n*********************');
+    } 
   });
 })();
